@@ -10,6 +10,11 @@
         android:title="@string/app_name"
         tools:icon="@drawable/ic_launcher"
         tools:summary="Version v0.5" />
+		
+	<Preference
+		android:icon="@drawable/ic_code"
+		android:key="@string/pref_key__more_info__copy_build_information"
+		android:title="Copy build information" />
 
     <Preference
         android:icon="@drawable/ic_thumb_up"
@@ -88,12 +93,6 @@
             android:key="@string/pref_key__more_info__source_code"
             android:summary="@string/contribute_code_to_this_project_anybody_welcome"
             android:title="@string/source_code" />
-
-
-        <Preference
-            android:icon="@drawable/ic_code"
-            android:key="@string/pref_key__more_info__copy_build_information"
-            android:title="Copy build information" />
 
     </com.benny.openlauncher.widget.ColorPreferenceCategory>
 

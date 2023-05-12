@@ -72,7 +72,7 @@ public class SettingsActivity extends ColorActivity implements SettingsBaseFragm
             List<Uri> files = Utils.getSelectedFilesFromResult(data);
             switch (requestCode) {
                 case Definitions.INTENT_BACKUP:
-                    BackupHelper.backupConfig(this, new File(Utils.getFileForUri(files.get(0)).getAbsolutePath() + "/openlauncher_" + new SimpleDateFormat("yyyyMMdd'T'HHmmss").format(new Date()) + ".zip").toString());
+                    BackupHelper.backupConfig(this, new File(Utils.getFileForUri(files.get(0)).getAbsolutePath() + "/openlauncher_" + new SimpleDateFormat("yyyy-MM-dd-HH.mm.ss").format(new Date()) + ".zip").toString());
                     Setup.dataManager().open();
                     break;
                 case Definitions.INTENT_RESTORE:

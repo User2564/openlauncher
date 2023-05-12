@@ -19,7 +19,7 @@ android {
         buildConfigField "String", "GITHASH", "\"${getGitHash()}\""
         resValue "string", "manifest_package_id", "com.benny.openlauncher"
 
-        resValue 'string', 'app_name', "OpenLauncher"
+        resValue 'string', 'app_name', "OpenLauncher - Custom"
 
         applicationId "com.benny.openlauncher"
         versionCode 42
