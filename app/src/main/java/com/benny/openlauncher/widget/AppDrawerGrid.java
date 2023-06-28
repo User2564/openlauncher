@@ -96,7 +96,7 @@ public class AppDrawerGrid extends FrameLayout {
             App app = apps.get(i);
             items.add(new IconLabelItem(app.getIcon(), app.getLabel())
                     .withIconSize(Setup.appSettings().getIconSize())
-                    .withTextColor(Color.WHITE)
+                    .withTextColor(Setup.appSettings().getDrawerLabelColor())
                     .withTextVisibility(Setup.appSettings().getDrawerShowLabel())
                     .withIconPadding(8)
                     .withTextGravity(Gravity.CENTER)
