@@ -75,12 +75,14 @@ public final class ItemOptionView extends FrameLayout {
     private final int removeItemIdentifier = 86;
     private final int resizeItemIdentifier = 87;
     private final int startShortcutItemIdentifier = 88;
+    private final int hideItemIdentifier = 89;
 
     private PopupIconLabelItem uninstallItem = new PopupIconLabelItem(R.string.uninstall, R.drawable.ic_delete).withIdentifier(uninstallItemIdentifier);
     private PopupIconLabelItem infoItem = new PopupIconLabelItem(R.string.info, R.drawable.ic_info).withIdentifier(infoItemIdentifier);
     private PopupIconLabelItem editItem = new PopupIconLabelItem(R.string.edit, R.drawable.ic_edit).withIdentifier(editItemIdentifier);
     private PopupIconLabelItem removeItem = new PopupIconLabelItem(R.string.remove, R.drawable.ic_close).withIdentifier(removeItemIdentifier);
     private PopupIconLabelItem resizeItem = new PopupIconLabelItem(R.string.resize, R.drawable.ic_resize).withIdentifier(resizeItemIdentifier);
+    private PopupIconLabelItem hideItem = new PopupIconLabelItem(R.string.hide, R.drawable.ic_hide_apps).withIdentifier(hideItemIdentifier);
 
 
     public static final class DragFlag {
@@ -359,6 +361,7 @@ public final class ItemOptionView extends FrameLayout {
                     itemList.add(editItem);
                     itemList.add(removeItem);
                 }
+                itemList.add(hideItem);
                 itemList.add(uninstallItem);
                 itemList.add(infoItem);
                 break;
@@ -420,6 +423,9 @@ public final class ItemOptionView extends FrameLayout {
                             break;
                         case startShortcutItemIdentifier:
                             itemOption.onStartShortcutItem(dragItem, position);
+                            break;
+                        case hideItemIdentifier:
+                            itemOption.onHideItem(dragItem);
                             break;
                     }
                 }
