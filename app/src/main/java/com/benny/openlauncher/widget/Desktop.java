@@ -155,7 +155,7 @@ public final class Desktop extends ViewPager implements DesktopCallback {
         public DesktopAdapter(Desktop desktop) {
             _desktop = desktop;
             _desktop.getPages().clear();
-            int count = HomeActivity._db.getDesktop().size();
+            int count = HomeActivity._db.getDesktop(true).size();
             if (count == 0) count++;
             for (int i = 0; i < count; i++) {
                 _desktop.getPages().add(getItemLayout());
@@ -338,7 +338,7 @@ public final class Desktop extends ViewPager implements DesktopCallback {
     private void addItemsToPage() {
         int columns = Setup.appSettings().getDesktopColumnCount();
         int rows = Setup.appSettings().getDesktopRowCount();
-        List<List<Item>> desktopItems = HomeActivity._db.getDesktop();
+        List<List<Item>> desktopItems = HomeActivity._db.getDesktop(true);
         for (int pageCount = 0; pageCount < desktopItems.size(); pageCount++) {
             List<Item> page = desktopItems.get(pageCount);
             _pages.get(pageCount).removeAllViews();
@@ -346,6 +346,7 @@ public final class Desktop extends ViewPager implements DesktopCallback {
                 Item item = page.get(itemCount);
                 if (item._x + item._spanX <= columns && item._y + item._spanY <= rows) {
                     addItemToPage(item, pageCount);
+                    Log.i("ADDED_ITEM", item._intent.getComponent().toString());
                 }
             }
 

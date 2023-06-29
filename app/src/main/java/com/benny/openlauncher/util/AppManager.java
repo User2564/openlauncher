@@ -66,7 +66,7 @@ public class AppManager {
 
         String packageName = intent.getComponent().getPackageName();
         String className = intent.getComponent().getClassName();
-        for (App app : _apps) {
+        for (App app : _nonFilteredApps) {
             if (app._className.equals(className) && app._packageName.equals(packageName)) {
                 return app;
             }
@@ -237,7 +237,7 @@ public class AppManager {
             removedApps = getRemovedApps(_apps, appsTemp);
 
             for (App app : removedApps) {
-                HomeActivity._db.deleteItems(app);
+                //HomeActivity._db.deleteItems(app);
             }
 
             AppSettings appSettings = AppSettings.get();
