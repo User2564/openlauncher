@@ -346,7 +346,6 @@ public final class Desktop extends ViewPager implements DesktopCallback {
                 Item item = page.get(itemCount);
                 if (item._x + item._spanX <= columns && item._y + item._spanY <= rows) {
                     addItemToPage(item, pageCount);
-                    Log.i("ADDED_ITEM", item._intent.getComponent().toString());
                 }
             }
 

@@ -169,7 +169,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         && (includeHidden || stateVar == ItemState.Visible.ordinal())) {
                     Item selection = getSelection(cursor);
                     desktop.get(page).add(selection);
-                    Log.i("LOL", selection._intent.getComponent().toString());
                 }
             } while (cursor.moveToNext());
         }
