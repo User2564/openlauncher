@@ -1,9 +1,5 @@
 package com.benny.openlauncher.activity.homeparts;
 
-import static android.content.pm.LauncherApps.ShortcutQuery.FLAG_MATCH_DYNAMIC;
-import static android.content.pm.LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST;
-import static android.content.pm.LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +7,7 @@ import android.content.pm.LauncherApps;
 import android.content.pm.ShortcutInfo;
 import android.graphics.Point;
 import android.net.Uri;
-import android.os.Process;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 
 import com.benny.openlauncher.R;
@@ -21,14 +15,15 @@ import com.benny.openlauncher.activity.HomeActivity;
 import com.benny.openlauncher.interfaces.DialogListener;
 import com.benny.openlauncher.manager.Setup;
 import com.benny.openlauncher.model.Item;
+import com.benny.openlauncher.util.AppSettings;
 import com.benny.openlauncher.util.Definitions.ItemPosition;
 import com.benny.openlauncher.util.Tool;
-import com.benny.openlauncher.viewutil.PopupDynamicIconLabelItem;
 import com.benny.openlauncher.widget.Desktop;
 import com.benny.openlauncher.widget.Dock;
 import com.benny.openlauncher.widget.WidgetContainer;
+import com.mikepenz.fastadapter.IAdapter;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class HpItemOption implements DialogListener.OnEditDialogListener {
     private HomeActivity _homeActivity;
@@ -78,6 +73,18 @@ public class HpItemOption implements DialogListener.OnEditDialogListener {
             } catch (Exception e) {
                 Tool.toast(_homeActivity, R.string.toast_app_uninstalled);
             }
+        }
+    }
+
+    public final void onHideItem(@NonNull Item item) {
+        if (item._type == Item.Type.APP) {
+            // Add app to hidden apps list
+            String appInfo = item.getIntent().getComponent().toString();
+            ArrayList<String> hiddenList = AppSettings.get().getHiddenAppsList();
+            hiddenList.add(appInfo);
+            AppSettings.get().setHiddenAppsList(hiddenList);
+            // Update UI
+            _homeActivity.recreate();
         }
     }
 

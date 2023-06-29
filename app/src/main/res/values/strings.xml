@@ -233,6 +233,7 @@
     <string name="info">Info</string>
     <string name="uninstall">Uninstall</string>
     <string name="remove">Remove</string>
+    <string name="hide">Hide</string>
     <string name="resize">Resize</string>
 
     <!-- Desktop Option View -->
