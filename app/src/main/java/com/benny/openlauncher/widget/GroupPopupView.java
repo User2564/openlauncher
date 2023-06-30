@@ -88,7 +88,7 @@ public class GroupPopupView extends RevealFrameLayout {
     }
 
 
-    public boolean showPopup(final Item item, final View itemView, final DesktopCallback callback) {
+    public boolean showPopup(final Item item, final View itemView, final DesktopCallback callback, boolean includeHidden) {
         if (_isShowing || getVisibility() == View.VISIBLE) return false;
         _isShowing = true;
 
@@ -120,7 +120,8 @@ public class GroupPopupView extends RevealFrameLayout {
                     continue;
                 }
                 final App app = Setup.appLoader().findItemApp(groupItem);
-                if (app == null || AppSettings.get().getHiddenAppsList().contains(app.getComponentName())) {
+                if (app == null || (!includeHidden
+                        && AppSettings.get().getHiddenAppsList().contains(app.getComponentName()))) {
                     deleteItem(context, item, groupItem, (AppItemView) itemView);
                     appsChanged = true;
                     continue;
