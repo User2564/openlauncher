@@ -51,8 +51,8 @@ public class CustomFilePickerActivity extends FilePickerActivity {
         // Get items async, since they are added async
         Handler handler = new Handler();
         new Thread(() -> {
+            // Update color of toolbar to match primary color
             AtomicReference<Toolbar> toolbar = new AtomicReference<>();
-            List<View> itemContainers = new ArrayList<>();
             while(toolbar.get() == null)
                 handler.post(() -> {
                     toolbar.set(findViewById(R.id.nnf_picker_toolbar));
@@ -62,6 +62,7 @@ public class CustomFilePickerActivity extends FilePickerActivity {
 
             // Update color of file icons to match primary color
             try{
+                List<View> itemContainers = new ArrayList<>();
                 AtomicBoolean isDestroyed = new AtomicBoolean(false);
                 while(!isDestroyed.get()){
                     handler.post(() -> {
