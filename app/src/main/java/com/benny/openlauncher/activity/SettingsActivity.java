@@ -30,10 +30,12 @@ import butterknife.ButterKnife;
 public class SettingsActivity extends ColorActivity implements SettingsBaseFragment.OnPreferenceStartFragmentCallback {
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
+    public static SettingsActivity INSTANCE;
 
     public void onCreate(Bundle b) {
         // must be applied before setContentView
         super.onCreate(b);
+        INSTANCE = this;
         ContextUtils contextUtils = new ContextUtils(this);
         contextUtils.setAppLanguage(_appSettings.getLanguage());
 

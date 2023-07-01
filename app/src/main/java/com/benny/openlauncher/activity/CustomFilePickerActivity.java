@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.benny.openlauncher.R;
 import com.benny.openlauncher.util.AppSettings;
+import com.nononsenseapps.filepicker.FilePickerActivity;
 
-public abstract class ColorActivity extends AppCompatActivity {
-
+/**
+ * Below is copied from{@link com.benny.openlauncher.activity.ColorActivity}
+ * and enables us to use the selected/default theme for the file picker.
+ */
+public class CustomFilePickerActivity extends FilePickerActivity {
     protected AppSettings _appSettings;
     private String _currentTheme;
 
