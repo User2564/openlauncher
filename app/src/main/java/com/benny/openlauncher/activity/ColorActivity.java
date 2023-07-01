@@ -50,7 +50,7 @@ public abstract class ColorActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public static int dark(int color, double factor) {
+    public int dark(int color, double factor) {
         int a = Color.alpha(color);
         int r = Color.red(color);
         int g = Color.green(color);
