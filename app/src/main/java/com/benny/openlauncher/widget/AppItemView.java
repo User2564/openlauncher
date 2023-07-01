@@ -245,7 +245,8 @@ public class AppItemView extends View implements Drawable.Callback, Notification
             _view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (HomeActivity.Companion.getLauncher() != null && (HomeActivity.Companion.getLauncher()).getGroupPopup().showPopup(item, v, callback)) {
+                    if (HomeActivity.Companion.getLauncher() != null
+                            && (HomeActivity.Companion.getLauncher()).getGroupPopup().showPopup(item, v, callback, true)) {
                         ((GroupDrawable) ((AppItemView) v).getIcon()).popUp();
                     }
                 }
