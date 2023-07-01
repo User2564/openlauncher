@@ -49,7 +49,6 @@ public class CustomFilePickerActivity extends FilePickerActivity {
         super.onCreate(savedInstanceState);
 
         // Get items async, since they are added async
-        View rootView = getWindow().getDecorView().getRootView();
         Handler handler = new Handler();
         new Thread(() -> {
             AtomicReference<Toolbar> toolbar = new AtomicReference<>();
@@ -60,7 +59,8 @@ public class CustomFilePickerActivity extends FilePickerActivity {
                     if(toolbar.get() != null)
                         toolbar.get().setBackground(new ColorDrawable(_appSettings.getPrimaryColor()));
                 });
-            // Check every 250ms if the size changed
+
+            // Update color of file icons to match primary color
             try{
                 AtomicBoolean isDestroyed = new AtomicBoolean(false);
                 while(!isDestroyed.get()){
