@@ -55,6 +55,9 @@
     <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorControlNormal">@color/white</item>
         <item name="titleTextColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorSecondary">@color/Light.TextColorSecondary</item>
         <item name="background">@color/colorPrimary</item>
     </style>
 
@@ -71,6 +74,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="nnf_toolbarTheme">@style/Toolbar</item>
     </style>
 
 </resources>

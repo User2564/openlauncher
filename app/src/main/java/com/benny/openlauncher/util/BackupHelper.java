@@ -45,7 +45,7 @@ public class BackupHelper {
 
             extractFileFromZip(file, dataDir + "/databases/home.db", "home.db");
             extractFileFromZip(file, dataDir + "/shared_prefs/app.xml", "app.xml");
-            Toast.makeText(context, R.string.toast_backup_success, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.toast_settings_restored, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(context, R.string.toast_backup_error, Toast.LENGTH_SHORT).show();
         }
