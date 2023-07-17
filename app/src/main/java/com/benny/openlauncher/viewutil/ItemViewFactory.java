@@ -122,21 +122,8 @@ public class ItemViewFactory {
 
         final WidgetContainer widgetContainer = new WidgetContainer(context, widgetView, item);
 
-        // TODO move this to standard DragHandler.getLongClick() method
         // needs to be set on widgetView but use widgetContainer inside
-        widgetView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (Setup.appSettings().getDesktopLock()) {
-                    return false;
-                }
-                if (Setup.appSettings().getGestureFeedback()) {
-                    Tool.vibrate(view);
-                }
-                DragHandler.startDrag(widgetContainer, item, DragAction.Action.DESKTOP, callback);
-                return true;
-            }
-        });
+        widgetView.setOnLongClickListener(DragHandler.getLongClick(widgetContainer, item, type, callback));
 
         widgetView.post(new Runnable() {
             @Override
