@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 
 import com.benny.openlauncher.R;
 import com.benny.openlauncher.manager.Setup;
+import com.benny.openlauncher.util.BiConsumer;
 import com.benny.openlauncher.util.Tool;
 import com.benny.openlauncher.viewutil.IconLabelItem;
 import com.mikepenz.fastadapter.FastAdapter;
@@ -67,20 +68,83 @@ public class DesktopOptionView extends FrameLayout {
         });
     }
 
-    public void updateLockIcon(final boolean lock) {
+    class IconLabelItemListEntry{
+        public IconLabelItem item;
+        public int itemPos;
+        public FastItemAdapter<IconLabelItem> itemActionAdapter;
+
+        public IconLabelItemListEntry(IconLabelItem item, int itemPos, FastItemAdapter<IconLabelItem> itemActionAdapter) {
+            this.item = item;
+            this.itemPos = itemPos;
+            this.itemActionAdapter = itemActionAdapter;
+        }
+    }
+
+    private List<IconLabelItemListEntry> removedItems = new ArrayList<>();
+
+    public void updateLockIconAndOthers(final boolean lock) {
         if (_actionAdapters.length == 0) return;
         if (_actionAdapters[0].getAdapterItemCount() == 0) return;
         post(new Runnable() {
             @Override
             public void run() {
                 if (lock) {
-                    _actionAdapters[0].getAdapterItem(2)._icon = getContext().getResources().getDrawable(R.drawable.ic_lock);
+                    // Change lock icon
+                    getItemByName(_actionAdapters[0].getAdapterItems(), getContext().getString(R.string.lock), (item, itemPos) -> {
+                        item._icon = getContext().getResources().getDrawable(R.drawable.ic_lock);
+                    });
+                    // Hide other icons, that now are disabled due to lock
+                    getItemByName(_actionAdapters[0].getAdapterItems(), getContext().getString(R.string.remove), (item, itemPos) -> {
+                        _actionAdapters[0].remove(itemPos);
+                        if(removedItems.size() < 3) // Prevents duplicate entries
+                            removedItems.add(new IconLabelItemListEntry(item, itemPos, _actionAdapters[0]));
+                    });
+                    getItemByName(_actionAdapters[1].getAdapterItems(), getContext().getString(R.string.widget), (item, itemPos) -> {
+                        _actionAdapters[1].remove(itemPos);
+                        if(removedItems.size() < 3)
+                            removedItems.add(new IconLabelItemListEntry(item, itemPos, _actionAdapters[1]));
+                    });
+                    getItemByName(_actionAdapters[1].getAdapterItems(), getContext().getString(R.string.action), (item, itemPos) -> {
+                        _actionAdapters[1].remove(itemPos);
+                        if(removedItems.size() < 3)
+                            removedItems.add(new IconLabelItemListEntry(item, itemPos, _actionAdapters[1]));
+                    });
                 } else {
-                    _actionAdapters[0].getAdapterItem(2)._icon = getContext().getResources().getDrawable(R.drawable.ic_lock_open);
+                    // Change lock icon
+                    getItemByName(_actionAdapters[0].getAdapterItems(), getContext().getString(R.string.lock), (item, itemPos) -> {
+                        item._icon = getContext().getResources().getDrawable(R.drawable.ic_lock_open);
+                    });
+                    // Show other icons, that now are enabled due to unlock
+                    for (IconLabelItemListEntry removedItem : removedItems) {
+                        removedItem.itemActionAdapter.add(removedItem.itemPos, removedItem.item);
+                    }
                 }
                 _actionAdapters[0].notifyAdapterItemChanged(2);
             }
         });
+    }
+
+    /**
+     * Searches the provided list for an item with the provided label.
+     * @param code the code to execute once the wanted item was found.
+     *             Has the item and its position in the list as parameters.
+     * @throws RuntimeException if no item was found.
+     */
+    private void getItemByName(List<IconLabelItem> items, String label,
+                               BiConsumer<IconLabelItem, Integer> code) {
+        int itemPos = -1;
+        IconLabelItem item = null;
+        for (int i = 0; i < items.size(); i++) {
+            IconLabelItem _item = items.get(i);
+            if (_item._label.equals(label)) {
+                item = _item;
+                itemPos = i;
+                break;
+            }
+        }
+        if(item == null)
+            throw new RuntimeException("Failed to find IconLabelItem with label '"+label+"' in "+items);
+        code.accept(item, itemPos);
     }
 
     @Override
@@ -134,7 +198,7 @@ public class DesktopOptionView extends FrameLayout {
                         }
                     } else if (id == R.string.lock) {
                         Setup.appSettings().setDesktopLock(!Setup.appSettings().getDesktopLock());
-                        updateLockIcon(Setup.appSettings().getDesktopLock());
+                        updateLockIconAndOthers(Setup.appSettings().getDesktopLock());
                     } else if (id == R.string.pref_title__settings) {
                         _desktopOptionViewListener.onLaunchSettings();
                     } else {
@@ -176,7 +240,7 @@ public class DesktopOptionView extends FrameLayout {
 
     private RecyclerView createRecyclerView(FastAdapter adapter, int gravity, int paddingHorizontal) {
         RecyclerView actionRecyclerView = new RecyclerView(getContext());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        CenteredLayoutManager linearLayoutManager = new CenteredLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         actionRecyclerView.setClipToPadding(false);
         actionRecyclerView.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
         actionRecyclerView.setLayoutManager(linearLayoutManager);
