@@ -1,7 +1,6 @@
 package com.benny.openlauncher.fragment;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.preference.Preference;
@@ -11,6 +10,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.benny.openlauncher.R;
 import com.benny.openlauncher.activity.HomeActivity;
+import com.benny.openlauncher.activity.CustomFilePickerActivity;
 import com.benny.openlauncher.util.AppSettings;
 import com.benny.openlauncher.util.DatabaseHelper;
 import com.benny.openlauncher.util.Definitions;
@@ -19,8 +19,6 @@ import com.nononsenseapps.filepicker.FilePickerActivity;
 
 import net.gsantner.opoc.util.ContextUtils;
 import net.gsantner.opoc.util.PermissionChecker;
-
-import java.io.File;
 
 public class SettingsMiscellaneousFragment extends SettingsBaseFragment {
     @Override
@@ -36,7 +34,7 @@ public class SettingsMiscellaneousFragment extends SettingsBaseFragment {
         switch (key) {
             case R.string.pref_key__backup:
                 if (new PermissionChecker(getActivity()).doIfExtStoragePermissionGranted()) {
-                    Intent i = new Intent(getActivity(), FilePickerActivity.class)
+                    Intent i = new Intent(getActivity(), CustomFilePickerActivity.class)
                             .putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true)
                             .putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR);
                     getActivity().startActivityForResult(i, Definitions.INTENT_BACKUP);
@@ -44,7 +42,7 @@ public class SettingsMiscellaneousFragment extends SettingsBaseFragment {
                 return true;
             case R.string.pref_key__restore:
                 if (new PermissionChecker(getActivity()).doIfExtStoragePermissionGranted()) {
-                    Intent i = new Intent(getActivity(), FilePickerActivity.class)
+                    Intent i = new Intent(getActivity(), CustomFilePickerActivity.class)
                             .putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false)
                             .putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
                     getActivity().startActivityForResult(i, Definitions.INTENT_RESTORE);

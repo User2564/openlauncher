@@ -45,6 +45,9 @@ import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
 import org.threeten.bp.ZonedDateTime;
 import org.threeten.bp.format.DateTimeFormatter;
 
@@ -366,7 +369,7 @@ public class SearchBar extends FrameLayout {
             _searchClock.setTextColor(appSettings.getDesktopDateTextColor());
         }
 
-        ZonedDateTime now = ZonedDateTime.now();
+        LocalDateTime now = LocalDateTime.of(LocalDate.now(), LocalTime.now());
         _clockFormatter = getSearchBarClockFormat(Setup.appSettings().getDesktopDateMode());
 
         String text = now.format(_clockFormatter);

@@ -25,10 +25,15 @@ public final class DragHandler {
     }
 
     public static View.OnLongClickListener getLongClick(final Item item, final DragAction.Action action, final DesktopCallback desktopCallback) {
+        return getLongClick(null, item, action, desktopCallback);
+    }
+
+    public static View.OnLongClickListener getLongClick(View actualView, final Item item, final DragAction.Action action, final DesktopCallback desktopCallback) {
         return new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                if (Setup.appSettings().getDesktopLock()) {
+                if(actualView != null) view = actualView;
+                if (action != DragAction.Action.DRAWER && Setup.appSettings().getDesktopLock()) {
                     if (HomeActivity.Companion.getLauncher() != null && !DragAction.Action.SEARCH.equals(action)) {
                         if (Setup.appSettings().getGestureFeedback()) {
                             Tool.vibrate(view);

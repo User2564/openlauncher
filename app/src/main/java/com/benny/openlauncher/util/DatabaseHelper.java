@@ -150,7 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{Tool.getIntentAsString(Tool.getIntentFromApp(app))});
     }
 
-    public List<List<Item>> getDesktop() {
+    public List<List<Item>> getDesktop(boolean includeHidden) {
         String SQL_QUERY_DESKTOP = SQL_QUERY + TABLE_HOME;
         Cursor cursor = _db.rawQuery(SQL_QUERY_DESKTOP, null);
         List<List<Item>> desktop = new ArrayList<>();
@@ -165,8 +165,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 while (page >= desktop.size()) {
                     desktop.add(new ArrayList<>());
                 }
-                if (desktopVar == ItemPosition.Desktop.ordinal() && stateVar == ItemState.Visible.ordinal()) {
-                    desktop.get(page).add(getSelection(cursor));
+                if (desktopVar == ItemPosition.Desktop.ordinal()
+                        && (includeHidden || stateVar == ItemState.Visible.ordinal())) {
+                    Item selection = getSelection(cursor);
+                    desktop.get(page).add(selection);
                 }
             } while (cursor.moveToNext());
         }
@@ -174,7 +176,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return desktop;
     }
 
-    public List<Item> getDock() {
+    public List<Item> getDock(boolean includeHidden) {
         String SQL_QUERY_DESKTOP = SQL_QUERY + TABLE_HOME;
         Cursor cursor = _db.rawQuery(SQL_QUERY_DESKTOP, null);
         List<Item> dock = new ArrayList<>();
@@ -184,7 +186,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do {
                 int desktopVar = Integer.parseInt(cursor.getString(desktopColumnIndex));
                 int stateVar = Integer.parseInt(cursor.getString(stateColumnIndex));
-                if (desktopVar == ItemPosition.Dock.ordinal() && stateVar == ItemState.Visible.ordinal()) {
+                if (desktopVar == ItemPosition.Dock.ordinal()
+                        && (includeHidden || stateVar == ItemState.Visible.ordinal())) {
                     dock.add(getSelection(cursor));
                 }
             } while (cursor.moveToNext());

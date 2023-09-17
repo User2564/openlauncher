@@ -263,7 +263,7 @@ public final class HomeActivity extends Activity implements OnDesktopEditListene
         getDesktopOptionView().postDelayed(new Runnable() {
             @Override
             public void run() {
-                getDesktopOptionView().updateLockIcon(appSettings.getDesktopLock());
+                getDesktopOptionView().updateLockIconAndOthers(appSettings.getDesktopLock());
             }
         }, 100);
 
